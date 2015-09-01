@@ -1,6 +1,7 @@
 # Adding a comment here so that I can check it in to the repo...
 
 from flask import Flask, render_template, request, redirect, url_for
+import requests
 from datetime import datetime
 
 import numpy as np
@@ -34,14 +35,19 @@ def index():
 		print app.vars['type']
 		print app.vars['length']
 
-		df = GetData()
-		PlotData(df)
+		urlname, status = GetURL()
 
-		return render_template('datetime.html')
+		if status == 200:
+			df = GetData(urlname)
+			PlotData(df)
+			return render_template('datetime.html')
 
-def GetData():
+		else:
+			return render_template('error.html')
 
-	print "GetData"
+def GetURL():
+
+	print "GetURL"
 
 	# Get the span from the website
 	span = app.vars['length']
@@ -82,19 +88,34 @@ def GetData():
 	GetStock = "WIKI/"+Stock
 
 	urlname = 'https://www.quandl.com/api/v3/datasets/'
-	urlname = urlname + GetStock + '.csv'
+	urlname = urlname + GetStock + '.csv?'
+	urlname = urlname + "api_key=" + token
 	#urlname = urlname + GetStock + '.json'
-	urlname = urlname + '?order=asc&exclude_headers=true'
+	urlname = urlname + '&order=asc&exclude_headers=true'
 	urlname = urlname + '&start_date='
 	urlname = urlname + starttime
 	urlname = urlname + '&end_date='
 	urlname = urlname + endtime
 
+	print urlname
+
+	r = requests.get(urlname)
+
+	print "Status Code =", r.status_code
+
+	return urlname, r.status_code
+	
+def GetData(urlname):
+
+	print "In GetData()"
+
 	df = pd.read_csv(urlname)
 
+	print "len(df) =", len(df)
 	#df = df['dataset'] # - needed if using json...
 
 	return df
+
 
 def PlotData(quandl_data):
 
