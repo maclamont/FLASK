@@ -1,0 +1,31 @@
+<!doctype html>
+<title>Stock Market</title>
+<link rel=stylesheet type=text/css href='{{ url_for('static', filename='style.css')}}'>
+<div class=page>
+	<h1>Stock Market</h1>
+	<div class=metanav>
+
+		<form id='infoform' method='post' action='index'>
+			<p>
+				What stock do you want info on (e.g. 'GOOGL' = Google, 'AAPL' = Apple)?: <input type='text' name='stock_stocks'/>
+			</p>
+			<p>
+				What record do you want to see?: 
+				<input type='radio' name='stock_type' value="Close" /> Close <br />
+				<input type='radio' name='stock_type' value="High" /> High <br />
+				<input type='radio' name='stock_type' value="Volume" /> Volume <br />
+			</p>
+			<p>
+				How much data history do you want to view?: 
+				<input type='radio' name='stock_length' value="onemonth" /> One month <br />
+				<input type='radio' name='stock_length' value="sixmonths" /> Six months <br />
+				<input type='radio' name='stock_length' value="oneyear" /> One year <br />
+			</p>
+
+			<p>
+				<input type='submit' value='Submit' />
+			</p>
+		</form>
+
+	</div>
+</div>
