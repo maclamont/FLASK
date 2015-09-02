@@ -101,8 +101,6 @@ def GetURL():
 
 	r = requests.get(urlname)
 
-	print "Status Code =", r.status_code
-
 	return urlname, r.status_code
 	
 def GetData(urlname):
