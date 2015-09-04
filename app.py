@@ -146,14 +146,13 @@ def PlotData(quandl_data):
 
 	p = figure(
    		tools="pan,box_zoom,reset,save",
+   		#tools="",
    		y_range=[y_min, y_max], title=Title, x_axis_type="datetime", 
    		x_axis_label='Date', y_axis_label=Label)
 
 	p.line(dates, quandl_data[app.vars['type']], legend=PlotLegend)
 
 	script, div = components(p)
-
-	save(p)
 
 	return script, div
 
