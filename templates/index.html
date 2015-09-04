@@ -2,21 +2,22 @@
 <title>Stock Market</title>
 <link rel=stylesheet type=text/css href='{{ url_for('static', filename='style.css')}}'>
 <div class=page>
-	<h1>Stock Market</h1>
+	<h1>Simple Stock Market Ticker</h1>
 	<div class=metanav>
 
 		<form id='infoform' method='post' action='index'>
 			<p>
-				<strong>What stock do you want info on (e.g. 'GOOG' = Google, 'AAPL' = Apple)?:</strong> <input type='text' name='stock_stocks'/>
+				<h2>Which stock do you want information on?</h2> <h3>(e.g. 'GOOG' = Google, 'AAPL' = Apple):
+				<input type='text' name='stock_stocks'/></h3>
 			</p>
 			<p>
-				<strong>What record do you want to see?:</strong>
+				<h2>Which record do you want to see?:</h2>
 				<p>Close <input type='radio' name='stock_type' value="Close" checked="checked"/></p>
 				<p>High <input type='radio' name='stock_type' value="High" /></p>
 				<p>Volume <input type='radio' name='stock_type' value="Volume" /> </p>
 			</p>
 			<p>
-				<strong>How much data history do you want to view?:</strong>
+				<h2>How much data history do you want to view?:</h2>
 				<p>One month <input type='radio' name='stock_length' value="onemonth" checked="checked"/></p>
 				<p>Six months<input type='radio' name='stock_length' value="sixmonths" /></p>
 				<p>One year<input type='radio' name='stock_length' value="oneyear" /></p>

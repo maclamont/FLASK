@@ -1,6 +1,8 @@
 # Adding a comment here so that I can check it in to the repo...
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, Markup
+import jinja2
+
 import requests
 from datetime import datetime
 
@@ -9,6 +11,7 @@ import pandas as pd
 
 # For Visualization
 from bokeh.plotting import figure, gridplot, output_file, show, save
+from bokeh.embed import components
 from bokeh.charts import Bar
 
 
@@ -39,8 +42,9 @@ def index():
 
 		if status == 200:
 			df = GetData(urlname)
-			PlotData(df)
-			return render_template('datetime.html')
+			script, div = PlotData(df)
+
+			return render_template('bokeh_plot.html', script=Markup(script), div=Markup(div))
 
 		else:
 			return render_template('error.html')
@@ -119,9 +123,6 @@ def PlotData(quandl_data):
 
 	print "In PlotData"
 
-	# Quandl ouput
-	output_file("templates/datetime.html")
-
 	# Now for the plot
 	y_max = 1.2*(np.floor(quandl_data[app.vars['type']].max()))
 	y_min = 0.8*(np.floor(quandl_data[app.vars['type']].min()))
@@ -144,14 +145,17 @@ def PlotData(quandl_data):
 		Label = "Volume"
 
 	p = figure(
-   		#tools="pan,box_zoom,reset,save",
+   		tools="pan,box_zoom,reset,save",
    		y_range=[y_min, y_max], title=Title, x_axis_type="datetime", 
    		x_axis_label='Date', y_axis_label=Label)
 
 	p.line(dates, quandl_data[app.vars['type']], legend=PlotLegend)
 
+	script, div = components(p)
 
 	save(p)
+
+	return script, div
 
 
 
